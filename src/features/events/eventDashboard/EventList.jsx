@@ -2,11 +2,12 @@ import React from 'react'
 import EventListItem from './EventListItem'
 
 
-export default function EvenList({events, selectEvent, deleteEvent}){
-    return (
+export default function EvenList({ events }) {
+	return (
 		<>
 			{events.map((event) => (
-				<EventListItem event={event} key={event.id} selectEvent={selectEvent} deleteEvent={deleteEvent} />
+				<EventListItem 	event={event} key={event.id}
+				/>
 			))}
 		</>
 	);
