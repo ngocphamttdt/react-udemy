@@ -6,6 +6,7 @@ import EventDashboard from '../../features/events/eventDashboard/EventDasboard';
 import NavBar from '../../features/nav/NavBar';
 import EventForm from '../../features/events/eventForm/EventForm';
 import HomePage from '../../features/Home/HomePage';
+import Sandbox from '../../features/sanbox/Sandbox';
 
 export default function App() {
 
@@ -17,6 +18,7 @@ export default function App() {
 					<NavBar />
 					<Container className='main'>
 						<Route exact path='/events' component={EventDashboard} />
+						<Route exact path='/sandbox' component={Sandbox} />
 						<Route exact path='/events/:id' component={EvenDetailedPage} />
 						<Route exact path={['/createEvent', '/manage/:id']} component={EventForm} />
 					</Container>
