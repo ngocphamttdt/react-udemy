@@ -1,20 +1,23 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { Grid } from 'semantic-ui-react';
 import EventDetailedChat from './EventDetailedChat';
 import EventDetailedHeader from './EventdetailedHeader';
 import EventDetailedInfo from './EventdetailedInfo';
 import EventDetailedSidebar from './EventDetailedSidebar';
 
-export default function EvenDetailedPage() {
+export default function EvenDetailedPage({ match }) {
+
+	const event = useSelector(state => state.event.events.find(e => e.id === match.params.id))
 	return (
 		<Grid>
 			<Grid.Column width={10}>
-				<EventDetailedHeader />
-				<EventDetailedInfo />
+				<EventDetailedHeader event={event} />
+				<EventDetailedInfo  event={event} />
 				<EventDetailedChat />
 			</Grid.Column>
 			<Grid.Column width={6}>
-				<EventDetailedSidebar />
+				<EventDetailedSidebar attendees={event.attendees}/>
 			</Grid.Column>
 		</Grid>
 	)

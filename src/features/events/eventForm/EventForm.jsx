@@ -1,9 +1,14 @@
 import cuid from 'cuid';
 import React, { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Button, Form, Header, Segment } from 'semantic-ui-react'
+import { createEvent, updateEvent } from '../eventActions';
 
-export default function EventForm({ setFormOpen, setEvents, createEvent, selectedEvent, updateEvent }) {
+export default function EventForm({ match, history }) {
+	const dispatch = useDispatch()
+	const selectedEvent = useSelector(state => state.event.events.find(e => e.id === match.params.id))
+
 	const initialValues = selectedEvent ?? {
 		title: '',
 		category: '',
@@ -16,15 +21,15 @@ export default function EventForm({ setFormOpen, setEvents, createEvent, selecte
 
 	const handleFormSubmit = () => {
 		selectedEvent ?
-		updateEvent({...selectedEvent, ...values})
-		:
-		createEvent({
-			 ...values, 
-			 id: cuid, 
-			 hostedBy: 'Bob', 
-			 attendees: []
-			 });
-		setFormOpen(false);
+			dispatch(updateEvent({ ...selectedEvent, ...values }))
+			:
+			dispatch(createEvent({
+				...values,
+				id: cuid,
+				hostedBy: 'NgocPham',
+				attendees: []
+			}))
+			history.push('/events')
 	};
 
 	const handleInputChange = (e) => {
@@ -34,7 +39,7 @@ export default function EventForm({ setFormOpen, setEvents, createEvent, selecte
 
 	return (
 		<Segment clearing>
-			<Header content={selectedEvent? "Edit the event" : "Create new event"} />
+			<Header content={selectedEvent ? "Edit the event" : "Create new event"} />
 			<Form onSubmit={handleFormSubmit}>
 				<Form.Field>
 					<input
@@ -92,10 +97,10 @@ export default function EventForm({ setFormOpen, setEvents, createEvent, selecte
 				</Form.Field>
 				<Button type="submit" floated="right" positive content="Submit" />
 				<Button
-				 as={Link} to='/events'
-				 type="submit" 
-				 floated="right" 
-				 content="Cancel" />
+					as={Link} to='/events'
+					type="submit"
+					floated="right"
+					content="Cancel" />
 			</Form>
 		</Segment>
 	);
