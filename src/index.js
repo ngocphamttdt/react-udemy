@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { render } from 'react-dom';
 import './index.css';
 import 'semantic-ui-css/semantic.min.css';
 import './app/layout/styles.css';
@@ -11,24 +11,23 @@ import { configureStore } from './app/store/configureStore';
 
 
 const store = configureStore()
-console.log('store.getState()')
-console.log(store.getState())
 
-function render(){
-	console.log('store.getState()')
-console.log(store.getState())
-}
-ReactDOM.render(
-	<React.StrictMode>
+init(render)
+
+function init(renderer) {
+	renderer(
 		<Provider store={store}>
-		<BrowserRouter>
-		<App />
-	</BrowserRouter>
+			<BrowserRouter>
+				<App />
+			</BrowserRouter>
 		</Provider>
+		,
+		document.getElementById('root')
 
-	</React.StrictMode>,
-	document.getElementById('root')
-);
+	)
+
+}
+
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
