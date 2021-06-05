@@ -7,25 +7,29 @@ import NavBar from '../../features/nav/NavBar';
 import EventForm from '../../features/events/eventForm/EventForm';
 import HomePage from '../../features/Home/HomePage';
 import Sandbox from '../../features/sanbox/Sandbox';
+import ModalManager from '../common/modals/ModalManager';
 
 export default function App() {
-	const {key} = useLocation()
+	const { key } = useLocation()
 
 	return (
 		<>
+		<ModalManager />
 			<Route exact path="/" component={HomePage} />
-			<Route path={'/(.+)'} render={() => (
-				<>
-					<NavBar />
-					<Container className='main'>
-						<Route exact path='/events' component={EventDashboard} />
-						<Route exact path='/sandbox' component={Sandbox} />
-						<Route exact path='/events/:id' component={EvenDetailedPage} />
-						<Route exact path={['/createEvent', '/manage/:id']} component={EventForm} key={key} />
-					</Container>
-				</>
+			<Route
+				path={'/(.+)'}
+				render={() => (
+					<>
+						<NavBar />
+						<Container className='main'>
+							<Route exact path='/events' component={EventDashboard} />
+							<Route exact path='/sandbox' component={Sandbox} />
+							<Route exact path='/events/:id' component={EvenDetailedPage} />
+							<Route exact path={['/createEvent', '/manage/:id']} component={EventForm} key={key} />
+						</Container>
+					</>
 
-			)} />
+				)} />
 
 		</>
 	);
