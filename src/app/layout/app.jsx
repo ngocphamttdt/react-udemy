@@ -6,8 +6,9 @@ import EventDashboard from '../../features/events/eventDashboard/EventDasboard';
 import NavBar from '../../features/nav/NavBar';
 import EventForm from '../../features/events/eventForm/EventForm';
 import HomePage from '../../features/Home/HomePage';
-import Sandbox from '../../features/sanbox/Sandbox';
+import Sandbox from '../../features/sanbox/Sandbox'
 import ModalManager from '../common/modals/ModalManager';
+import { ToastContainer } from 'react-toastify'
 
 export default function App() {
 	const { key } = useLocation()
@@ -15,6 +16,7 @@ export default function App() {
 	return (
 		<>
 		<ModalManager />
+		<ToastContainer position='bottom-right' hideProgressBar />
 			<Route exact path="/" component={HomePage} />
 			<Route
 				path={'/(.+)'}
