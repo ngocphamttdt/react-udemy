@@ -9,14 +9,15 @@ import HomePage from '../../features/Home/HomePage';
 import Sandbox from '../../features/sanbox/Sandbox'
 import ModalManager from '../common/modals/ModalManager';
 import { ToastContainer } from 'react-toastify'
+import ErrorComponent from '../common/errors/ErrorComponent';
 
 export default function App() {
 	const { key } = useLocation()
 
 	return (
 		<>
-		<ModalManager />
-		<ToastContainer position='bottom-right' hideProgressBar />
+			<ModalManager />
+			<ToastContainer position='bottom-right' hideProgressBar />
 			<Route exact path="/" component={HomePage} />
 			<Route
 				path={'/(.+)'}
@@ -28,9 +29,9 @@ export default function App() {
 							<Route exact path='/sandbox' component={Sandbox} />
 							<Route exact path='/events/:id' component={EvenDetailedPage} />
 							<Route exact path={['/createEvent', '/manage/:id']} component={EventForm} key={key} />
+							<Route path='/error' component={ErrorComponent} />
 						</Container>
 					</>
-
 				)} />
 
 		</>
