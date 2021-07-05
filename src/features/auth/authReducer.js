@@ -2,11 +2,8 @@ import { SIGN_IN_USER, SIGN_OUT_USER } from "./authContants";
 import user from '../assets/user.png'
 
 const initialState = {
-  authenticated: true,
-  currentUser: {
-    email: 'bob@test.com',
-    photoUrl: user
-  }
+  authenticated: false,
+  currentUser: null
 }
 
 export default function authReducer(state = initialState, {type, payload}){
@@ -17,7 +14,10 @@ export default function authReducer(state = initialState, {type, payload}){
         authenticated: true,
         currentUser: {
           email: payload.email,
-          photoUrl: user
+          photoUrl: payload.photoURL,
+          uid: payload.uid,
+          displayName: payload.displayName,
+          providerId: payload.providerData[0].providerId
         }
       }
       case SIGN_OUT_USER:

@@ -7,28 +7,28 @@ import { Button, Divider, Label } from 'semantic-ui-react'
 import { useDispatch } from 'react-redux'
 import { verifyAuth } from './authActions'
 import { closeModal } from '../../app/common/modals/modalReducer'
-import { signInWithEmail } from '../../app/firestore/firebaseService'
+import { registerInFirebase, signInWithEmail } from '../../app/firestore/firebaseService'
 import SocialLogin from './SocicalLogin'
 
-export default function LoginForm() {
+export default function RegisterForm() {
   const dispatch = useDispatch()
 
   return (
-    <ModalWrapper size='mini' header='Sign in to Re-vents'>
+    <ModalWrapper size='mini' header='Register to Re-vents'>
       <Formik
-        initialValues={{ email: '', password: '' }}
+        initialValues={{ displayName: '', email: '', password: '' }}
         validationSchema={Yup.object({
+          displayName: Yup.string().required(),
           email: Yup.string().required().email(),
           password: Yup.string().required()
         })}
         onSubmit={async (values, { setSubmitting, setErrors }) => {
           try {
-            await signInWithEmail(values)
-            verifyAuth()
+            await registerInFirebase(values)
             setSubmitting(false)
             dispatch(closeModal())
           } catch (error) {
-            setErrors({ auth: 'Problem with username or password' })
+            setErrors({ auth: error.message })
             setSubmitting(false)
           }
 
@@ -37,6 +37,7 @@ export default function LoginForm() {
         {({ isSubmitting, isValid, dirty, errors }) =>
         (
           <Form className='ui form' >
+            <MyTextInput name='displayName' placeholder='DisplayName' />
             <MyTextInput name='email' placeholder='Email Address' />
             <MyTextInput name='password' placeholder='Password' type='password' />
             {errors.auth && <Label basic color='red' style={{ marginBottom: 10 }} content={errors.auth} />}
@@ -47,7 +48,7 @@ export default function LoginForm() {
               fruid
               size='large'
               color='teal'
-              content='Login'
+              content='Register'
             />
             <Divider horizontal> Or</Divider>
             <SocialLogin />
