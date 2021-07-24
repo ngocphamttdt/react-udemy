@@ -7,7 +7,7 @@ import { Button, Confirm, Header, Segment } from 'semantic-ui-react'
 import { listenToEvents } from '../eventActions'
 import * as Yup from 'yup'
 import MyTextInput from '../../../app/common/form/MyTextInput'
-import MyTextArea from '../../../app/common/MyTextArea';
+import MyTextArea from '../../../app/common/form/MyTextArea';
 import MySelectInput from '../../../app/common/form/MySelectInput'
 import MyDateInput from '../../../app/common/form/MyDateInput'
 import { categoryData } from '../../../app/api/categoryOptions'

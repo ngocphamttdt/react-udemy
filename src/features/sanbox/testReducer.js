@@ -26,7 +26,7 @@ export function decrement(amount) {
     dispatch(asyncActionStart())
     try {
       await delay(1000)
-      throw 'oops'
+      // throw 'oops'
       dispatch({ type: DECREMENT_COUNTER, payload: amount })
       dispatch(asyncActionFinish())
 
@@ -42,17 +42,17 @@ const initialState = {
   data: 42
 }
 
-export default function testReducer(state = initialState, { type, payload }) {
-  switch (type) {
+export default function testReducer(state = initialState, action) {
+  switch (action.type) {
     case INCREMENT_COUNTER:
       return {
         ...state,
-        data: state.data + payload
+        data: state.data + action.payload
       }
     case DECREMENT_COUNTER:
       return {
         ...state,
-        data: state.data - payload
+        data: state.data - action.payload
       }
     default: return state
 

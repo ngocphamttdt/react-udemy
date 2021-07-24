@@ -13,9 +13,11 @@ export default function useFirestoreDoc({ query, data, deps, shouldExecute = tru
       snapShot => {
         if(!snapShot.exists){
           dispatch(asyncActionError({code: 'not-found', message: 'Could not find document'}))
+         
           return
         }
         data(dataFromSnapshot(snapShot))
+        
         dispatch(asyncActionFinish())
       },
       error => dispatch(asyncActionError())
