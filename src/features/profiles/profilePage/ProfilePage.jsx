@@ -21,9 +21,6 @@ export default function ProfilePage({ match }) {
     deps: [dispatch, match.params.id]
   })
 
-  console.log('event')
-  console.log(selectedUserProfile)
-
   if ((loading && !selectedUserProfile) || (!selectedUserProfile && !error)) return <LoadingComponent content='Loading profile ....' />
 
   return (
