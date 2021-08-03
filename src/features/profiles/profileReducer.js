@@ -1,9 +1,15 @@
-import { LISTEN_TO_CURRENT_USER_PROFILE, LISTEN_TO_SELECTED_USER_PROFILE, LISTEN_TO_USER_PHOTO } from "./profileConstants";
+import {
+  LISTEN_TO_CURRENT_USER_PROFILE,
+  LISTEN_TO_SELECTED_USER_PROFILE,
+  LISTEN_TO_USER_PHOTO,
+  LIST_TO_USER_EVENT
+} from "./profileConstants";
 
 const initialState = {
   currentUserProfile: null,
   selectedUserProfile: null,
-  photos: []
+  photos: [],
+  profileEvents: []
 }
 
 export default function profileReducer(state = initialState, { type, payload }) {
@@ -23,6 +29,12 @@ export default function profileReducer(state = initialState, { type, payload }) 
       return {
         ...state,
         photos: payload
+      }
+    case LIST_TO_USER_EVENT:
+      return {
+        ...state,
+        profileEvents: payload
+
       }
     default: {
       return state
