@@ -1,4 +1,4 @@
-import { CREATE_EVENT, DELETE_EVENT, FETCH_EVENT, UPDATE_EVENT } from "./eventConstants";
+import { CREATE_EVENT, DELETE_EVENT, FETCH_EVENT, UPDATE_EVENT, LISTEN_TO_EVENT_CHAT } from "./eventConstants";
 import {asyncActionStart, asyncActionFinish, asyncActionError} from '../../app/async/asyncReducer'
 import { fectchSampleData } from "../../app/api/mockApi";
 
@@ -43,3 +43,9 @@ export function deleteEvent(event){
   }
 }
 
+export function listenToEventChat(comments){
+  return{
+    type: LISTEN_TO_EVENT_CHAT,
+    payload: comments
+  }
+}
