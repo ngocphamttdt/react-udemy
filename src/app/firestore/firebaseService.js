@@ -2,6 +2,12 @@ import { toast } from 'react-toastify'
 import firebase from '../config/firebase'
 import { setUserProfileData } from './fireStoreService'
 
+export function firebaseObjectToArray(snapshot) {
+  if (snapshot) {
+    return Object.entries(snapshot).map(e => Object.assign({}, e[1], { id: e[0] }))
+  }
+}
+
 export async function signInWithEmail(creds) {
   return await firebase.auth().signInWithEmailAndPassword(creds.email, creds.password)
 }
@@ -38,8 +44,8 @@ export async function socialLogin(selectedProvider) {
     provider = new firebase.auth.GoogleAuthProvider()
   }
   try {
-    const  result = await firebase.auth().signInWithPopup(provider)
-    if(result.additionalUserInfo.isNewUser){
+    const result = await firebase.auth().signInWithPopup(provider)
+    if (result.additionalUserInfo.isNewUser) {
       await setUserProfileData(result.user)
     }
   } catch (error) {
@@ -47,20 +53,38 @@ export async function socialLogin(selectedProvider) {
   }
 }
 
-export function updateUserPassword(creds){
+export function updateUserPassword(creds) {
   const user = firebase.auth().currentUser
   return user.updatePassword(creds.newPassword1)
 }
 
-export function uploadToFirebaseStorage(file, filename){
+export function uploadToFirebaseStorage(file, filename) {
   const user = firebase.auth().currentUser
   const storageRef = firebase.storage().ref()
   return storageRef.child(`${user.uid}/user_images/${filename}`).put(file)
 }
 
-export function deleteFromFirebaseStorage(filename){
+export function deleteFromFirebaseStorage(filename) {
   const userUid = firebase.auth().currentUser.uid
   const storageRef = firebase.storage().ref()
   const photoRef = storageRef.child(`${userUid}/user_images/${filename}`)
   return photoRef.delete()
+}
+
+export function addEventChatComment(eventId, values) {
+  const user = firebase.auth().currentUser
+  const newComment = {
+    displayName: user.displayName,
+    photoURL: user.photoURL,
+    uid: user.uid,
+    text: values.comment,
+    date: Date.now(),
+    parentId: values.parentId
+  }
+
+  return firebase.database().ref(`chat/${eventId}`).push(newComment)
+}
+
+export function getEventChatRef(eventId) {
+  return firebase.database().ref(`chat/${eventId}`).orderByKey()
 }

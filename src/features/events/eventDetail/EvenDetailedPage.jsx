@@ -39,7 +39,7 @@ export default function EvenDetailedPage({ match }) {
 					isHost={isHost}
 				/>
 				<EventDetailedInfo event={event} />
-				<EventDetailedChat />
+				<EventDetailedChat eventId={event?.id} />
 			</Grid.Column>
 			<Grid.Column width={6}>
 				<EventDetailedSidebar attendees={event?.attendees} hostUid={event.hostUid} />
