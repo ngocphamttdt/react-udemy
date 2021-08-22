@@ -9,7 +9,6 @@
     "cuid": "^2.1.8",
     "date-fns": "^2.22.1",
     "firebase": "^8.6.8",
-    "firebase-tools": "^9.16.5",
     "formik": "^2.2.8",
     "react": "^16.13.1",
     "react-calendar": "^3.4.0",
