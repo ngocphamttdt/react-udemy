@@ -35,7 +35,6 @@ export default function ProfileHeader({ profile, isCurrentUser }) {
   async function handleFollowUser() {
     setLoading(true)
     try {
-      debugger
       await followUser(profile)
       dispatch(setFollowUser())
     } catch (error) {
@@ -48,7 +47,6 @@ export default function ProfileHeader({ profile, isCurrentUser }) {
 
   async function handleUnfollowUser() {
     setLoading(true)
-    debugger
     try {
       await unfollowUser(profile)
       dispatch(setUnfollowUser())

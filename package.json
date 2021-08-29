@@ -49,6 +49,7 @@
     ]
   },
   "devDependencies": {
+    "@babel/eslint-parser": "^7.15.0",
     "redux-devtools-extension": "^2.13.9"
   }
 }
