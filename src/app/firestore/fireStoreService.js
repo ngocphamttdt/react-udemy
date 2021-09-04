@@ -19,9 +19,9 @@ export function dataFromSnapshot(snapshot) {
   }
 }
 
-export function listenToEventsFormFirestore(predicate) {
+export function fetchEventsFromFirestore(predicate, limit, lastDocSnapshot = null) {
   const user = firebase.auth().currentUser
-  let eventsRef = db.collection('events').orderBy('date')
+  let eventsRef = db.collection('events').orderBy('date').startAfter(lastDocSnapshot).limit(limit)
   switch (predicate.get('filter')) {
     case 'isGoing':
       return eventsRef
@@ -128,6 +128,7 @@ export function getUserPhotos(userUid) {
 
 export async function setMainPhoto(photo) {
   const user = firebase.auth().currentUser
+
   try {
     await db.collection('users').doc(user.uid).update({
       photoURL: photo.url
@@ -194,27 +195,27 @@ export function getUserEventsQuery(activeTab, userUid) {
 export async function followUser(profile) {
   const user = firebase.auth().currentUser
   try {
-   await db.collection('following').doc(user.uid).collection('userFollowing').doc(profile.id).set({
-     displayName: profile.displayName,
-     photoURL: profile.photoURL,
-     uid: profile.id
-   })
+    await db.collection('following').doc(user.uid).collection('userFollowing').doc(profile.id).set({
+      displayName: profile.displayName,
+      photoURL: profile.photoURL,
+      uid: profile.id
+    })
 
-      await db.collection('following').doc(profile.id).collection('userFollowers').doc(user.uid).set({
-        displayName: user.displayName,
-        photoURL: user.photoURL,
-        uid:user.uid
-      })
-  
+    await db.collection('following').doc(profile.id).collection('userFollowers').doc(user.uid).set({
+      displayName: user.displayName,
+      photoURL: user.photoURL,
+      uid: user.uid
+    })
+
 
     await db.collection('users').doc(user.uid).update({
       followingCount: firebase.firestore.FieldValue.increment(1)
     })
 
-   return  await db.collection('users').doc(profile.id).update({
+    return await db.collection('users').doc(profile.id).update({
       followerCount: firebase.firestore.FieldValue.increment(1)
     })
-    
+
   } catch (error) {
     throw error
   }
@@ -225,12 +226,12 @@ export async function unfollowUser(profile) {
   try {
     db.collection('following').doc(user.uid).collection('userFollowing').doc(profile.id).delete()
     db.collection('following').doc(profile.id).collection('userFollowers').doc(user.uid).delete()
- 
+
     await db.collection('users').doc(user.uid).update({
       followingCount: firebase.firestore.FieldValue.increment(-1)
     })
 
-   return  await db.collection('users').doc(profile.id).update({
+    return await db.collection('users').doc(profile.id).update({
       followerCount: firebase.firestore.FieldValue.increment(-1)
     })
   } catch (error) {
